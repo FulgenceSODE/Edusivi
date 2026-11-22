@@ -1,0 +1,11 @@
+.git
+.github
+.vscode
+target
+database
+nb-configuration.xml
+.env
+.env.*
+*.dump
+*.backup
+*.log

@@ -1,0 +1,26 @@
+\set ON_ERROR_STOP on
+
+-- Run only after applying 04_auth_workflow.sql.
+-- Displays each one-time password once; deliver it privately to that account's owner.
+-- Do not redirect this output to a shared file, log, or chat.
+BEGIN;
+
+CREATE TEMPORARY TABLE account_temporary_credentials ON COMMIT PRESERVE ROWS AS
+SELECT id_utilisateur,
+       email,
+       translate(encode(gen_random_bytes(24), 'base64'), '+/', '-_') AS temporary_password
+FROM utilisateur;
+
+UPDATE utilisateur AS u
+SET mot_de_passe_hash = crypt(credentials.temporary_password, gen_salt('bf', 12)),
+    password_reset_required = TRUE
+FROM account_temporary_credentials AS credentials
+WHERE u.id_utilisateur = credentials.id_utilisateur;
+
+SELECT email, temporary_password
+FROM account_temporary_credentials
+ORDER BY email;
+
+COMMIT;
+
+DROP TABLE account_temporary_credentials;

@@ -1,0 +1,24 @@
+# Configure a bcrypt-backed JDBC realm using the existing EdusuiviDS datasource.
+# Password values must be PostgreSQL pgcrypto crypt() bcrypt strings.
+# This must use the same profile as the running server. Stop WildFly first.
+embed-server --server-config=standalone-full.xml --std-out=echo
+
+if (outcome == success) of /subsystem=elytron/simple-role-decoder=edusuivi-roles:read-resource
+    /subsystem=elytron/simple-role-decoder=edusuivi-roles:write-attribute(name=attribute,value=groups)
+else
+    /subsystem=elytron/simple-role-decoder=edusuivi-roles:add(attribute=groups)
+end-if
+
+if (outcome != success) of /subsystem=elytron/jdbc-realm=edusuivi-jdbc-realm:read-resource
+    /subsystem=elytron/jdbc-realm=edusuivi-jdbc-realm:add(principal-query=[{data-source=EdusuiviDS,sql="SELECT mot_de_passe_hash FROM utilisateur WHERE LOWER(email)=LOWER(?) AND statut='ACTIF'",modular-crypt-mapper={password-index=1}},{data-source=EdusuiviDS,sql="SELECT r.code_role FROM role r JOIN utilisateur_role ur ON r.id_role=ur.id_role JOIN utilisateur u ON u.id_utilisateur=ur.id_utilisateur WHERE LOWER(u.email)=LOWER(?) AND u.statut='ACTIF'",attribute-mapping=[{index=1,to=groups}]}])
+end-if
+
+if (outcome != success) of /subsystem=elytron/security-domain=EduSuiviSecurityDomain:read-resource
+    /subsystem=elytron/security-domain=EduSuiviSecurityDomain:add(default-realm=edusuivi-jdbc-realm,realms=[{realm=edusuivi-jdbc-realm,role-decoder=edusuivi-roles}],permission-mapper=default-permission-mapper)
+end-if
+
+if (outcome != success) of /subsystem=undertow/application-security-domain=EduSuiviSecurityDomain:read-resource
+    /subsystem=undertow/application-security-domain=EduSuiviSecurityDomain:add(security-domain=EduSuiviSecurityDomain)
+end-if
+
+stop-embedded-server

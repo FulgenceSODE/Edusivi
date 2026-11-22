@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/layout/template.xhtml">
+    <ui:define name="title">Gérer les Utilisateurs - Administrateur</ui:define>
+
+    <ui:define name="content">
+        <!-- En-tête -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1">
+                    <i class="bi bi-person-badge-fill text-danger me-2"></i>Gestion des Utilisateurs &amp; Rôles
+                </h3>
+                <p class="text-muted mb-0">Création des comptes, attribution des privilèges JAAS et gestion des statuts (ACTIF / SUSPENDU)</p>
+            </div>
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#modalNouvelUtilisateur">
+                <i class="bi bi-person-plus-fill me-1"></i> Nouvel Utilisateur
+            </button>
+        </div>
+
+        <!-- Tableau des utilisateurs -->
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="bi bi-people-fill text-danger me-2"></i>Comptes Référencés dans le Système
+                </h5>
+                <span class="badge bg-danger">#{adminBean.totalUtilisateurs} Comptes</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Nom &amp; Prénoms</th>
+                                <th>Identifiant Email</th>
+                                <th>Rôle JAAS</th>
+                                <th>Statut Compte</th>
+                                <th>Créé le</th>
+                                <th class="text-end">Actions Administrateur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{adminBean.utilisateurs}" var="u">
+                                <tr>
+                                    <td>#{u.id}</td>
+                                    <td class="fw-bold text-dark">#{u.nom} #{u.prenom}</td>
+                                    <td><small class="text-muted">#{u.email}</small></td>
+                                    <td>
+                                        <span class="badge #{u.role == 'ADMIN' ? 'badge-role-admin' : (u.role == 'DE' ? 'badge-role-de' : 'badge-role-prof')}">
+                                            #{u.role}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge #{u.statut == 'ACTIF' ? 'bg-success' : 'bg-danger'}">
+                                            #{u.statut}
+                                        </span>
+                                    </td>
+                                    <td>#{u.dateCreation}</td>
+                                    <td class="text-end">
+                                        <h:form styleClass="d-inline">
+                                            <h:commandLink action="#{adminBean.basculerStatut(u)}"
+                                                           styleClass="btn btn-sm #{u.statut == 'ACTIF' ? 'btn-outline-danger' : 'btn-outline-success'} me-1"
+                                                           title="Basculer le statut">
+                                                <i class="bi #{u.statut == 'ACTIF' ? 'bi-slash-circle' : 'bi-check-circle'} me-1"></i>
+                                                #{u.statut == 'ACTIF' ? 'Suspendre' : 'Activer'}
+                                            </h:commandLink>
+                                            <h:commandLink action="#{adminBean.reinitialiserMotDePasse(u)}"
+                                                           styleClass="btn btn-sm btn-outline-warning"
+                                                           title="Réinitialiser le mot de passe">
+                                                <i class="bi bi-key-fill"></i>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modale Nouvel Utilisateur -->
+        <div class="modal fade" id="modalNouvelUtilisateur" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <h:form id="formNouvelUtilisateur">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill text-danger me-2"></i>Créer un Utilisateur</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold">Nom *</label>
+                                    <h:inputText value="#{adminBean.newNom}" styleClass="form-control" required="true"/>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-bold">Prénom *</label>
+                                    <h:inputText value="#{adminBean.newPrenom}" styleClass="form-control" required="true"/>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Email de connexion (JAAS Principal) *</label>
+                                <h:inputText value="#{adminBean.newEmail}" styleClass="form-control" required="true"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Rôle assigné</label>
+                                <h:selectOneMenu value="#{adminBean.newRole}" styleClass="form-select">
+                                    <f:selectItem itemValue="PROFESSEUR" itemLabel="Professeur / Enseignant"/>
+                                    <f:selectItem itemValue="DE" itemLabel="Directeur des Études (DE)"/>
+                                    <f:selectItem itemValue="ADMIN" itemLabel="Administrateur"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Mot de passe initial *</label>
+                                <h:inputSecret value="#{adminBean.newPassword}" styleClass="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <h:commandButton value="Créer le compte" action="#{adminBean.creerUtilisateur}" styleClass="btn btn-danger"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

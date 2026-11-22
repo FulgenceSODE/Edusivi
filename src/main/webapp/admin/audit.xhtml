@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/layout/template.xhtml">
+    <ui:define name="title">Journal d'Audit - Administrateur</ui:define>
+
+    <ui:define name="content">
+        <!-- En-tête -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1">
+                    <i class="bi bi-shield-check text-info me-2"></i>Journal d'Audit &amp; Traçabilité (JournalAudit)
+                </h3>
+                <p class="text-muted mb-0">Historique infalsifiable de toutes les actions sensibles, modifications de notes et statuts</p>
+            </div>
+            <button type="button" class="btn btn-outline-secondary" onclick="alert('Export du journal d\'audit généré au format CSV.');">
+                <i class="bi bi-download me-1"></i> Exporter Journal (CSV)
+            </button>
+        </div>
+
+        <!-- Filtres d'audit -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body py-3">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold text-muted mb-1">Type d'Action</label>
+                        <select class="form-select form-select-sm">
+                            <option>Toutes les actions</option>
+                            <option>CREATION_UTILISATEUR</option>
+                            <option>AFFECTATION_ROLE</option>
+                            <option>MODIFICATION_STATUT</option>
+                            <option>REINITIALISATION_MDP</option>
+                            <option>MODIFICATION_NOTE</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold text-muted mb-1">Entité concernée</label>
+                        <select class="form-select form-select-sm">
+                            <option>Toutes les entités</option>
+                            <option>Utilisateur</option>
+                            <option>UtilisateurRole</option>
+                            <option>Note</option>
+                            <option>DemandeInscriptionEnseignant</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="button" class="btn btn-sm btn-primary w-100">
+                            <i class="bi bi-funnel me-1"></i> Filtrer les événements
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des logs d'audit -->
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="bi bi-list-check text-info me-2"></i>Piste d'Audit &amp; Événements
+                </h5>
+                <span class="badge bg-info text-dark">#{adminBean.totalAudits} Événements enregistrés</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Horodatage</th>
+                                <th>Action Enregistrée</th>
+                                <th>Entité Cible</th>
+                                <th>Détails de l'Opération</th>
+                                <th>Opérateur / Auteur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{adminBean.logsAudit}" var="log">
+                                <tr>
+                                    <td><i class="bi bi-clock me-1 text-muted"></i>#{log.dateAction}</td>
+                                    <td><span class="badge bg-secondary">#{log.action}</span></td>
+                                    <td><span class="badge bg-light text-dark border">#{log.typeEntite}</span></td>
+                                    <td>#{log.details}</td>
+                                    <td><small class="text-muted fw-bold">#{log.auteur}</small></td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

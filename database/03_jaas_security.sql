@@ -1,0 +1,5 @@
+-- EduSuivi - 03_jaas_security.sql
+-- Demo accounts with shared/clear-text passwords were deliberately removed.
+-- Create user accounts through the authenticated administration workflow.
+-- Existing accounts need bcrypt hashes produced by PostgreSQL pgcrypto before
+-- being used by the Elytron modular-crypt mapper.

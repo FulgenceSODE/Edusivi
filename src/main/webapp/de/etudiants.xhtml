@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/layout/template.xhtml">
+    <ui:define name="title">Gérer les Étudiants - Directeur des Études</ui:define>
+
+    <ui:define name="content">
+        <!-- En-tête -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1">
+                    <i class="bi bi-people-fill text-primary me-2"></i>Gestion des Étudiants
+                </h3>
+                <p class="text-muted mb-0">Annuaire des étudiants, dossiers scolaires et coordonnées</p>
+            </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNouvelEtudiant">
+                <i class="bi bi-person-plus-fill me-1"></i> Nouvel Étudiant
+            </button>
+        </div>
+
+        <!-- Tableau des Étudiants -->
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark">
+                    <i class="bi bi-person-badge text-primary me-2"></i>Liste des Étudiants Inscrits
+                </h5>
+                <span class="badge bg-primary">#{deBean.totalEtudiants} Étudiants</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Matricule</th>
+                                <th>Nom &amp; Prénoms</th>
+                                <th>Sexe</th>
+                                <th>Date Naissance</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Groupe</th>
+                                <th>Statut</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{deBean.etudiants}" var="etu">
+                                <tr>
+                                    <td><span class="badge bg-light text-primary border">#{etu.matricule}</span></td>
+                                    <td class="fw-bold text-dark">#{etu.nomComplet}</td>
+                                    <td>
+                                        <span class="badge #{etu.sexe == 'F' ? 'bg-danger-subtle text-danger' : 'bg-primary-subtle text-primary'}">
+                                            #{etu.sexe}
+                                        </span>
+                                    </td>
+                                    <td>#{etu.dateNaissance}</td>
+                                    <td>#{etu.telephone}</td>
+                                    <td><small class="text-muted">#{etu.email}</small></td>
+                                    <td><span class="badge bg-secondary">#{etu.groupe}</span></td>
+                                    <td>
+                                        <span class="badge #{etu.statutInscription == 'VALIDE' ? 'bg-success' : 'bg-warning text-dark'}">
+                                            #{etu.statutInscription}
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-sm btn-outline-info" title="Consulter dossier"
+                                                onclick="alert('Fiche dossier de #{etu.nomComplet} :\nMatricule : #{etu.matricule}\nTéléphone : #{etu.telephone}\nEmail : #{etu.email}');">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modale Nouvel Étudiant -->
+        <div class="modal fade" id="modalNouvelEtudiant" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <h:form id="formNouvelEtudiant">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill text-primary me-2"></i>Ajouter un Étudiant</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Matricule *</label>
+                                    <h:inputText value="#{deBean.newMatricule}" styleClass="form-control" required="true"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Nom *</label>
+                                    <h:inputText value="#{deBean.newNom}" styleClass="form-control" required="true"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Prénom *</label>
+                                    <h:inputText value="#{deBean.newPrenom}" styleClass="form-control" required="true"/>
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Sexe</label>
+                                    <h:selectOneMenu value="#{deBean.newSexe}" styleClass="form-select">
+                                        <f:selectItem itemValue="M" itemLabel="Masculin (M)"/>
+                                        <f:selectItem itemValue="F" itemLabel="Féminin (F)"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Date de Naissance</label>
+                                    <h:inputText value="#{deBean.newDateNaissance}" styleClass="form-control"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Téléphone</label>
+                                    <h:inputText value="#{deBean.newTel}" styleClass="form-control"/>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Email</label>
+                                    <h:inputText value="#{deBean.newEmail}" styleClass="form-control"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Groupe d'affectation</label>
+                                    <h:selectOneMenu value="#{deBean.newGroupe}" styleClass="form-select">
+                                        <f:selectItem itemValue="L2-GL-G1" itemLabel="L2-GL-G1 (Génie Logiciel)"/>
+                                        <f:selectItem itemValue="L2-GL-G2" itemLabel="L2-GL-G2 (Génie Logiciel)"/>
+                                        <f:selectItem itemValue="L3-GL" itemLabel="L3-GL (Licence 3)"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <h:commandButton value="Enregistrer l'étudiant" action="#{deBean.ajouterEtudiant}" styleClass="btn btn-primary"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

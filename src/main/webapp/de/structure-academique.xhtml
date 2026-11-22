@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<ui:composition template="/layout/template.xhtml">
+    <ui:define name="title">Structure Académique &amp; Matières - Directeur des Études</ui:define>
+
+    <ui:define name="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1">
+                    <i class="bi bi-diagram-3-fill text-primary me-2"></i>Structure Académique &amp; Matières
+                </h3>
+                <p class="text-muted mb-0">Départements, Filières, Unités d'Enseignement (UE) et Composition des Matières avec coefficients</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="alert('Formulaire d\'ajout d\'une nouvelle Matière');">
+                <i class="bi bi-plus-lg me-1"></i> Nouvelle Matière
+            </button>
+        </div>
+
+        <div class="row g-4">
+            <!-- Arbre académique sommaire -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-building me-2 text-primary"></i>Départements &amp; Filières</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div><strong>Informatique &amp; Sciences du Numérique</strong><br/><span class="text-muted">Code : DEPT-INFO</span></div>
+                                <span class="badge bg-primary rounded-pill">2 Filières</span>
+                            </li>
+                            <li class="list-group-item ps-4">
+                                <i class="bi bi-arrow-return-right me-1 text-secondary"></i>
+                                <span>Génie Logiciel (GL) &#8226; L1, L2, L3</span>
+                            </li>
+                            <li class="list-group-item ps-4">
+                                <i class="bi bi-arrow-return-right me-1 text-secondary"></i>
+                                <span>Réseaux &amp; Systèmes (RS) &#8226; L1, L2, L3</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-collection me-2 text-primary"></i>Unités d'Enseignement (UE)</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item">
+                                <div class="fw-bold">UE-INFO-21 : Fondements Informatique</div>
+                                <span class="text-muted">Semestre 1 &#8226; 2 Matières composantes &#8226; 7 Crédits</span>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="fw-bold">UE-INFO-22 : Génie Logiciel &amp; Modélisation</div>
+                                <span class="text-muted">Semestre 1 &#8226; 2 Matières composantes &#8226; 6 Crédits</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste et Composition des Matières dans les UE -->
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold text-dark">
+                            <i class="bi bi-book-half text-primary me-2"></i>Composition des Matières &amp; Coefficients
+                        </h5>
+                        <span class="badge bg-light text-secondary border">Filière : Génie Logiciel (L2)</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Code Matière</th>
+                                        <th>Intitulé de la Matière</th>
+                                        <th>UE de Rattachement</th>
+                                        <th>Coefficient</th>
+                                        <th>Vol. Horaire</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{deBean.matieres}" var="mat">
+                                        <tr>
+                                            <td><span class="badge bg-light text-primary border">#{mat.code}</span></td>
+                                            <td class="fw-bold text-dark">#{mat.libelle}</td>
+                                            <td>
+                                                <span class="badge bg-secondary-subtle text-secondary">#{mat.codeUe}</span>
+                                                <div class="small text-muted">#{mat.nomUe}</div>
+                                            </td>
+                                            <td><span class="badge bg-primary">Coef. #{mat.coefficient}</span></td>
+                                            <td>#{mat.volumeHoraire} h</td>
+                                            <td class="text-end">
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="alert('Édition de la matière #{mat.libelle}');">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
