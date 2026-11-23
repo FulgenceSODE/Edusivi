@@ -5,7 +5,7 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    healthCheckPath: /login.jsp
+    healthCheckPath: /EduSuivi/login.jsp
     envVars:
       - key: EDUSUIVI_DB_URL
         sync: false
