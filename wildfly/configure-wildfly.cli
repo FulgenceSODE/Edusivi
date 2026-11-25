@@ -8,7 +8,8 @@
 #   PG_DRIVER_JAR    chemin du jar du driver PostgreSQL
 # PowerShell : & "$env:WILDFLY_HOME\bin\jboss-cli.bat" --file="wildfly\configure-wildfly.cli"
 embed-server --server-config=standalone-full.xml --std-out=echo
-module add --name=org.postgresql --resources=${env.PG_DRIVER_JAR} --dependencies=jakarta.api,jakarta.transaction.api
+# Use the Java SE modules required by the PostgreSQL JDBC driver.
+module add --name=org.postgresql --resources=${env.PG_DRIVER_JAR} --dependencies=java.sql,java.transaction.xa,java.logging,java.naming,java.management,java.xml
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 data-source add --name=EdusuiviDS --jndi-name=java:/EdusuiviDS --driver-name=postgresql --connection-url="${env.EDUSUIVI_DB_URL:jdbc:postgresql://localhost:5432/edusuivi_db}" --user-name="${env.EDUSUIVI_DB_USER}" --password="${env.EDUSUIVI_DB_PASSWORD}" --validate-on-match=true --background-validation=false --use-ccm=true
 stop-embedded-server
