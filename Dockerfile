@@ -21,7 +21,7 @@ RUN apt-get update \
     && curl -fsSL "https://repo.maven.apache.org/maven2/org/postgresql/postgresql/${POSTGRESQL_JDBC_VERSION}/postgresql-${POSTGRESQL_JDBC_VERSION}.jar" -o /opt/pgdriver/postgresql.jar \
     && rm /tmp/wildfly.tar.gz
 
-COPY --from=build /workspace/target/EduSuivi.war /opt/wildfly/standalone/deployments/EduSuivi.war
+COPY --from=build /workspace/target/EduSuivi.war /opt/wildfly/standalone/deployments/ROOT.war
 COPY wildfly/configure-wildfly.cli /opt/wildfly/edusuivi-config/configure-wildfly.cli
 COPY wildfly/configure-elytron-jaas.cli /opt/wildfly/edusuivi-config/configure-elytron-jaas.cli
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
