@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demandes professeur - EduSuivi</title>
+    <title>Demande professeur - EduSuivi</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
         <main class="content-area">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Demandes d’inscription professeur</h1>
+                    <h1 class="page-title">Demande d’inscription professeur</h1>
                     <p class="page-subtitle">Validez les demandes et attribuez un matricule professionnel unique.</p>
                 </div>
             </div>

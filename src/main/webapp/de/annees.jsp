@@ -30,7 +30,6 @@
                 <div>
                     <p class="eyebrow">Organisation académique</p>
                     <h1 class="page-title">Années et semestres</h1>
-                    <p class="page-subtitle">Gérez le calendrier de l’institut et l’année active. Les années clôturées restent consultables.</p>
                 </div>
             </div>
 
@@ -40,66 +39,75 @@
                 <div class="alert alert-success" role="status" aria-live="polite">La modification a été enregistrée.</div>
             <% } %>
 
-            <section class="card">
-                <div class="card-header">
+            <details class="card calendar-accordion" name="academic-calendar" open>
+                <summary class="card-header calendar-accordion-summary">
                     <div>
                         <h2>Années académiques</h2>
-                        <p class="form-help">Une seule année peut être active. Les années historiques ne sont pas supprimées.</p>
                     </div>
                     <span class="badge badge-primary"><%= years.size() %> année(s)</span>
-                </div>
+                </summary>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="data-table">
                             <thead>
-                                <tr><th>Libellé</th><th>Début</th><th>Fin</th><th>État</th><th>Actions</th></tr>
+                                <tr><th>Année académique</th></tr>
                             </thead>
                             <tbody>
                                 <% for (AnneeAcademique year : years) { %>
                                     <tr>
-                                        <td colspan="5">
-                                            <form class="calendar-row" action="${pageContext.request.contextPath}/de/annees" method="POST">
-                                                <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
-                                                <input type="hidden" name="action" value="saveYear">
-                                                <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
-                                                <label class="sr-only" for="year-label-<%= year.getIdAnnee() %>">Libellé de l’année</label>
-                                                <input class="form-control" id="year-label-<%= year.getIdAnnee() %>" name="label" maxlength="30" required value="<%= HtmlEscaper.escape(year.getLibelle()) %>">
-                                                <label class="sr-only" for="year-start-<%= year.getIdAnnee() %>">Date de début</label>
-                                                <input class="form-control" id="year-start-<%= year.getIdAnnee() %>" type="date" name="startDate" required value="<%= dateFormat.format(year.getDateDebut()) %>">
-                                                <label class="sr-only" for="year-end-<%= year.getIdAnnee() %>">Date de fin</label>
-                                                <input class="form-control" id="year-end-<%= year.getIdAnnee() %>" type="date" name="endDate" required value="<%= dateFormat.format(year.getDateFin()) %>">
-                                                <span class="badge <%= "ACTIVE".equalsIgnoreCase(year.getStatut()) ? "badge-success" : ("CLOTUREE".equalsIgnoreCase(year.getStatut()) ? "badge-neutral" : "badge-warning") %>"><%= HtmlEscaper.escape(year.getStatut()) %></span>
-                                                <button class="btn btn-sm btn-outline-primary" type="submit">Enregistrer</button>
-                                            </form>
-                                            <% if (!"ACTIVE".equalsIgnoreCase(year.getStatut()) && !"CLOTUREE".equalsIgnoreCase(year.getStatut())) { %>
-                                                <div class="calendar-row-actions">
-                                                    <form action="${pageContext.request.contextPath}/de/annees" method="POST">
-                                                        <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
-                                                        <input type="hidden" name="action" value="activateYear">
-                                                        <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
-                                                        <button class="btn btn-sm btn-primary" type="submit">Activer</button>
-                                                    </form>
-                                                    <form action="${pageContext.request.contextPath}/de/annees" method="POST">
-                                                        <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
-                                                        <input type="hidden" name="action" value="closeYear">
-                                                        <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
-                                                        <button class="btn btn-sm btn-outline" type="submit"
-                                                                data-confirm="Clôturer définitivement cette année académique ?">Clôturer</button>
-                                                    </form>
-                                                </div>
-                                            <% } %>
+                                        <td>
+                                            <details class="calendar-entry" name="academic-year">
+                                                <summary class="calendar-entry-summary">
+                                                    <strong><%= HtmlEscaper.escape(year.getLibelle()) %></strong>
+                                                    <span class="badge <%= "ACTIVE".equalsIgnoreCase(year.getStatut()) ? "badge-success" : ("CLOTUREE".equalsIgnoreCase(year.getStatut()) ? "badge-neutral" : "badge-warning") %>"><%= HtmlEscaper.escape(year.getStatut()) %></span>
+                                                </summary>
+                                                <form class="calendar-row" action="${pageContext.request.contextPath}/de/annees" method="POST">
+                                                    <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
+                                                    <input type="hidden" name="action" value="saveYear">
+                                                    <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
+                                                    <label class="sr-only" for="year-label-<%= year.getIdAnnee() %>">Libellé de l’année</label>
+                                                    <input class="form-control" id="year-label-<%= year.getIdAnnee() %>" name="label" maxlength="30" required value="<%= HtmlEscaper.escape(year.getLibelle()) %>">
+                                                    <label class="sr-only" for="year-start-<%= year.getIdAnnee() %>">Date de début</label>
+                                                    <input class="form-control" id="year-start-<%= year.getIdAnnee() %>" type="date" name="startDate" required value="<%= dateFormat.format(year.getDateDebut()) %>">
+                                                    <label class="sr-only" for="year-end-<%= year.getIdAnnee() %>">Date de fin</label>
+                                                    <input class="form-control" id="year-end-<%= year.getIdAnnee() %>" type="date" name="endDate" required value="<%= dateFormat.format(year.getDateFin()) %>">
+                                                    <button class="btn btn-sm btn-outline-primary" type="submit">Enregistrer</button>
+                                                </form>
+                                                <% if (!"ACTIVE".equalsIgnoreCase(year.getStatut()) && !"CLOTUREE".equalsIgnoreCase(year.getStatut())) { %>
+                                                    <div class="calendar-row-actions">
+                                                        <form action="${pageContext.request.contextPath}/de/annees" method="POST">
+                                                            <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
+                                                            <input type="hidden" name="action" value="activateYear">
+                                                            <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
+                                                            <button class="btn btn-sm btn-primary" type="submit">Activer</button>
+                                                        </form>
+                                                        <form action="${pageContext.request.contextPath}/de/annees" method="POST">
+                                                            <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
+                                                            <input type="hidden" name="action" value="closeYear">
+                                                            <input type="hidden" name="yearId" value="<%= year.getIdAnnee() %>">
+                                                            <button class="btn btn-sm btn-outline" type="submit"
+                                                                    data-confirm="Clôturer définitivement cette année académique ?">Clôturer</button>
+                                                        </form>
+                                                    </div>
+                                                <% } %>
+                                            </details>
                                         </td>
                                     </tr>
                                 <% } %>
                                 <% if (years.isEmpty()) { %>
-                                    <tr><td colspan="5"><div class="empty-state"><strong>Aucune année académique</strong><span>Créez une année pour organiser les semestres et les inscriptions.</span></div></td></tr>
+                                    <tr><td><div class="empty-state"><strong>Aucune année académique</strong><span>Créez une année pour organiser les semestres et les inscriptions.</span></div></td></tr>
                                 <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <h3>Créer une année académique</h3>
+            </details>
+
+            <details class="card calendar-accordion" name="academic-calendar">
+                <summary class="card-header calendar-accordion-summary">
+                    <h2>Créer une année académique</h2>
+                </summary>
+                <div class="card-body">
                     <form class="form-row calendar-create" action="${pageContext.request.contextPath}/de/annees" method="POST">
                         <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
                         <input type="hidden" name="action" value="saveYear">
@@ -118,52 +126,62 @@
                         <button class="btn btn-primary" type="submit">Créer l’année</button>
                     </form>
                 </div>
-            </section>
+            </details>
 
-            <section class="card">
-                <div class="card-header">
+            <details class="card calendar-accordion" name="academic-calendar">
+                <summary class="card-header calendar-accordion-summary">
                     <div>
                         <h2>Semestres</h2>
                         <p class="form-help">Les dates de chaque semestre doivent être comprises dans son année académique.</p>
                     </div>
                     <span class="badge badge-neutral"><%= semesters.size() %> semestre(s)</span>
-                </div>
+                </summary>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="data-table">
-                            <thead><tr><th>Année</th><th>Code</th><th>Libellé</th><th>Début</th><th>Fin</th><th>Action</th></tr></thead>
+                            <thead><tr><th>Année</th><th>Semestre</th></tr></thead>
                             <tbody>
                                 <% for (Semestre semester : semesters) { %>
                                     <tr>
                                         <td><%= HtmlEscaper.escape(semester.getIdAnnee().getLibelle()) %></td>
-                                        <td colspan="5">
-                                            <form class="calendar-row semester-row" action="${pageContext.request.contextPath}/de/annees" method="POST">
-                                                <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
-                                                <input type="hidden" name="action" value="saveSemester">
-                                                <input type="hidden" name="semesterId" value="<%= semester.getIdSemestre() %>">
-                                                <input type="hidden" name="yearId" value="<%= semester.getIdAnnee().getIdAnnee() %>">
-                                                <label class="sr-only" for="semester-code-<%= semester.getIdSemestre() %>">Code</label>
-                                                <input class="form-control" id="semester-code-<%= semester.getIdSemestre() %>" name="code" maxlength="20" required value="<%= HtmlEscaper.escape(semester.getCode()) %>">
-                                                <label class="sr-only" for="semester-label-<%= semester.getIdSemestre() %>">Libellé</label>
-                                                <input class="form-control" id="semester-label-<%= semester.getIdSemestre() %>" name="semesterLabel" maxlength="100" required value="<%= HtmlEscaper.escape(semester.getLibelle()) %>">
-                                                <label class="sr-only" for="semester-start-<%= semester.getIdSemestre() %>">Date de début</label>
-                                                <input class="form-control" id="semester-start-<%= semester.getIdSemestre() %>" type="date" name="semesterStartDate" required value="<%= dateFormat.format(semester.getDateDebut()) %>">
-                                                <label class="sr-only" for="semester-end-<%= semester.getIdSemestre() %>">Date de fin</label>
-                                                <input class="form-control" id="semester-end-<%= semester.getIdSemestre() %>" type="date" name="semesterEndDate" required value="<%= dateFormat.format(semester.getDateFin()) %>">
-                                                <button class="btn btn-sm btn-outline-primary" type="submit">Enregistrer</button>
-                                            </form>
+                                        <td>
+                                            <details class="calendar-entry" name="academic-semester">
+                                                <summary class="calendar-entry-summary">
+                                                    <strong><%= HtmlEscaper.escape(semester.getCode()) %> - <%= HtmlEscaper.escape(semester.getLibelle()) %></strong>
+                                                </summary>
+                                                <form class="calendar-row semester-row" action="${pageContext.request.contextPath}/de/annees" method="POST">
+                                                    <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
+                                                    <input type="hidden" name="action" value="saveSemester">
+                                                    <input type="hidden" name="semesterId" value="<%= semester.getIdSemestre() %>">
+                                                    <input type="hidden" name="yearId" value="<%= semester.getIdAnnee().getIdAnnee() %>">
+                                                    <label class="sr-only" for="semester-code-<%= semester.getIdSemestre() %>">Code</label>
+                                                    <input class="form-control" id="semester-code-<%= semester.getIdSemestre() %>" name="code" maxlength="20" required value="<%= HtmlEscaper.escape(semester.getCode()) %>">
+                                                    <label class="sr-only" for="semester-label-<%= semester.getIdSemestre() %>">Libellé</label>
+                                                    <input class="form-control" id="semester-label-<%= semester.getIdSemestre() %>" name="semesterLabel" maxlength="100" required value="<%= HtmlEscaper.escape(semester.getLibelle()) %>">
+                                                    <label class="sr-only" for="semester-start-<%= semester.getIdSemestre() %>">Date de début</label>
+                                                    <input class="form-control" id="semester-start-<%= semester.getIdSemestre() %>" type="date" name="semesterStartDate" required value="<%= dateFormat.format(semester.getDateDebut()) %>">
+                                                    <label class="sr-only" for="semester-end-<%= semester.getIdSemestre() %>">Date de fin</label>
+                                                    <input class="form-control" id="semester-end-<%= semester.getIdSemestre() %>" type="date" name="semesterEndDate" required value="<%= dateFormat.format(semester.getDateFin()) %>">
+                                                    <button class="btn btn-sm btn-outline-primary" type="submit">Enregistrer</button>
+                                                </form>
+                                            </details>
                                         </td>
                                     </tr>
                                 <% } %>
                                 <% if (semesters.isEmpty()) { %>
-                                    <tr><td colspan="6"><div class="empty-state"><strong>Aucun semestre</strong><span>Ajoutez les semestres après avoir créé une année.</span></div></td></tr>
+                                    <tr><td colspan="2"><div class="empty-state"><strong>Aucun semestre</strong><span>Ajoutez les semestres après avoir créé une année.</span></div></td></tr>
                                 <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <h3>Créer un semestre</h3>
+            </details>
+
+            <details class="card calendar-accordion" name="academic-calendar">
+                <summary class="card-header calendar-accordion-summary">
+                    <h2>Créer un semestre</h2>
+                </summary>
+                <div class="card-body">
                     <form class="form-row calendar-create" action="${pageContext.request.contextPath}/de/annees" method="POST">
                         <input type="hidden" name="csrfToken" value="<%= HtmlEscaper.escape(csrfToken) %>">
                         <input type="hidden" name="action" value="saveSemester">
@@ -195,7 +213,7 @@
                         <button class="btn btn-primary" type="submit">Créer le semestre</button>
                     </form>
                 </div>
-            </section>
+            </details>
         </main>
         <jsp:include page="/includes/footer.jsp"/>
     </div>

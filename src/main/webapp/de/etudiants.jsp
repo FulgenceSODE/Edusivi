@@ -28,8 +28,7 @@
                 <div>
                     <p class="eyebrow">Scolarité</p>
                     <h1 class="page-title">Dossiers étudiants</h1>
-                    <p class="page-subtitle">Créez et mettez à jour les dossiers. Les étudiants n’ont pas de compte utilisateur.</p>
-                </div>
+                     </div>
                 <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/de/inscriptions">Gérer les inscriptions</a>
             </div>
             <% if (message != null) { %>
@@ -42,7 +41,7 @@
             </div>
             <section class="card">
                 <div class="card-header">
-                    <div><h2>Enregistrer un étudiant</h2><p class="form-help">Le matricule est unique et les données de scolarité sont conservées sans compte étudiant.</p></div>
+                    <div><h2>Enregistrer un étudiant</h2><p class="form-help">Le matricule est unique .</p></div>
                 </div>
                 <div class="card-body">
                     <form class="form-row calendar-create" action="${pageContext.request.contextPath}/de/etudiants" method="POST">

@@ -33,14 +33,14 @@
             <% if (flashMessage != null) { %>
                 <div class="alert alert-danger" role="alert" aria-live="polite"><%= HtmlEscaper.escape(flashMessage) %></div>
             <% } else if ("true".equals(request.getParameter("saved"))) { %>
-                <div class="alert alert-success" role="status" aria-live="polite">Les modifications ont été enregistrées.</div>
+                <div class="alert alert-success" role="status" aria-live="polite">Validé</div>
             <% } %>
 
             <section class="card">
                 <div class="card-header">
                     <div>
                         <h2>Créer un compte</h2>
-                        <p class="form-help">Les comptes sont activés après création et doivent remplacer leur mot de passe temporaire à la première connexion.</p>
+                        <p class="form-help">Les comptes sont activés après création.</p>
                     </div>
                 </div>
                 <div class="card-body">
@@ -56,7 +56,7 @@
                             <input class="form-control" id="new-prenom" name="prenom" maxlength="100" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="new-email">Adresse électronique</label>
+                            <label class="form-label" for="new-email">Adresse </label>
                             <input class="form-control" id="new-email" type="email" name="email" maxlength="254" required>
                         </div>
                         <div class="form-group">
@@ -67,23 +67,23 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="new-matricule">Matricule professeur (si Professeur)</label>
+                            <label class="form-label" for="new-matricule">Matricule professeur</label>
                             <input class="form-control" id="new-matricule" name="matricule" maxlength="50">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="new-specialite">Spécialité (facultatif)</label>
+                            <label class="form-label" for="new-specialite">Spécialité </label>
                             <input class="form-control" id="new-specialite" name="specialite" maxlength="150">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="new-password">Mot de passe temporaire</label>
+                            <label class="form-label" for="new-password">Mot de passe</label>
                             <input class="form-control" id="new-password" type="password" name="temporaryPassword" minlength="12" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="new-password-confirm">Confirmer le mot de passe temporaire</label>
+                            <label class="form-label" for="new-password-confirm">Confirmer mot de passe</label>
                             <input class="form-control" id="new-password-confirm" type="password" name="confirmTemporaryPassword" minlength="12" autocomplete="new-password" required>
                         </div>
                         <div class="form-group form-action">
-                            <button class="btn btn-primary" type="submit">Créer le compte</button>
+                            <button class="btn btn-primary" type="submit">Créer Compte</button>
                         </div>
                     </form>
                 </div>
@@ -121,7 +121,7 @@
                                     <input class="form-control" id="prenom-<%= user.getId() %>" name="prenom" maxlength="100" value="<%= HtmlEscaper.escape(user.getPrenom()) %>" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="email-<%= user.getId() %>">Adresse électronique</label>
+                                    <label class="form-label" for="email-<%= user.getId() %>">Adresse </label>
                                     <input class="form-control" id="email-<%= user.getId() %>" type="email" name="email" maxlength="254" value="<%= HtmlEscaper.escape(user.getEmail()) %>" required>
                                 </div>
                                 <button class="btn btn-sm btn-outline-primary" type="submit" <%= user.isCurrentUser() ? "disabled" : "" %>>Enregistrer le profil</button>
@@ -163,7 +163,7 @@
                         </article>
                     <% } %>
                     <% if (users.isEmpty()) { %>
-                        <div class="empty-state"><strong>Aucun compte</strong><span>Créez le premier compte DE ou professeur.</span></div>
+                        <div class="empty-state"><strong>Aucun compte</strong><span>Créez compte DE ou professeur.</span></div>
                     <% } %>
                 </div>
             </section>

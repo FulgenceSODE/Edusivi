@@ -27,7 +27,7 @@
                         <div><h2>Demandes d’inscription</h2><p class="form-help">Examinez les demandes des professeurs avant leur première connexion.</p></div>
                     </div>
                     <div class="card-body">
-                        <p class="dashboard-card-description">Attribuez un matricule et approuvez les comptes selon le workflow existant.</p>
+                        <p class="dashboard-card-description">Attribuez un matricule et approuvez les comptes .</p>
                         <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/espace/demandes-inscription">
                             Examiner les demandes
                         </a>
@@ -38,7 +38,7 @@
                         <div><h2>Comptes utilisateurs</h2><p class="form-help">Accès réservé à l’administration.</p></div>
                     </div>
                     <div class="card-body">
-                        <p class="dashboard-card-description">Gérez les comptes et leurs rôles sans modifier les règles d’accès.</p>
+                        <p class="dashboard-card-description">Gérez les comptes et leurs rôles.</p>
                         <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/espace/utilisateurs">
                             Gérer les comptes
                         </a>

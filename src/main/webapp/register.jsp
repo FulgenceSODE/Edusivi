@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande d'inscription Enseignant - EduSuivi</title>
+    <title>Demande d'inscription Professeur - EduSuivi</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body class="auth-wrapper auth-image-page">
@@ -35,33 +35,39 @@
                 <input type="hidden" name="csrfToken" value="<%= com.mycompany.web.CsrfTokens.ensureToken(request) %>">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="nom">Nom</label>
-                        <input type="text" id="nom" name="nom" class="form-control" placeholder="Votre nom" autocomplete="family-name" required>
+                        <input type="text" id="nom" name="nom" class="form-control"
+                               placeholder="Nom" aria-label="Nom"
+                               autocomplete="family-name" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="prenom">Prénom</label>
-                        <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Votre prénom" autocomplete="given-name" required>
+                        <input type="text" id="prenom" name="prenom" class="form-control"
+                               placeholder="Prénom" aria-label="Prénom"
+                               autocomplete="given-name" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="email">Adresse électronique</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="professeur@universite.ci" autocomplete="email" required>
+                    <input type="email" id="email" name="email" class="form-control"
+                           placeholder="Adresse électronique" aria-label="Adresse électronique"
+                           autocomplete="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="specialite">Discipline / spécialité</label>
-                    <input type="text" id="specialite" name="specialite" class="form-control" placeholder="Ex. : Génie logiciel" autocomplete="organization-title" required>
+                    <input type="text" id="specialite" name="specialite" class="form-control"
+                           placeholder="Discipline / spécialité" aria-label="Discipline / spécialité"
+                           autocomplete="organization-title" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="password">Mot de passe</label>
-                        <input type="password" id="password" name="password" class="form-control" minlength="12" maxlength="128" autocomplete="new-password" required>
+                        <input type="password" id="password" name="password" class="form-control"
+                               placeholder="Mot de passe" aria-label="Mot de passe"
+                               minlength="12" maxlength="128" autocomplete="new-password" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="confirm_password">Confirmer le mot de passe</label>
-                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" minlength="12" maxlength="128" autocomplete="new-password" required>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                               placeholder="Confirmer le mot de passe" aria-label="Confirmer le mot de passe"
+                               minlength="12" maxlength="128" autocomplete="new-password" required>
                     </div>
                 </div>
 

@@ -10,6 +10,10 @@
     Long sessionCount = (Long) request.getAttribute("sessionCount");
     Long evaluationCount = (Long) request.getAttribute("evaluationCount");
     Long publishedEvaluationCount = (Long) request.getAttribute("publishedEvaluationCount");
+    String userName = (String) session.getAttribute("userNom");
+    String welcomeMessage = userName == null || userName.isBlank()
+            ? "Bienvenue dans votre espace"
+            : "Bienvenue, " + userName + " !";
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 %>
 <!DOCTYPE html>
@@ -30,7 +34,7 @@
                 <img class="dashboard-hero-image" src="${pageContext.request.contextPath}/images/edusuivi-campus.png" alt="">
                 <div class="dashboard-hero-panel">
                     <p class="eyebrow">Espace professeur</p>
-                    <h1 id="dashboard-title">Bienvenue sur EduSuivi</h1>
+                    <h1 id="dashboard-title"><%= HtmlEscaper.escape(welcomeMessage) %></h1>
                     <p>Vos enseignements, séances et évaluations enregistrés en un coup d’œil.</p>
                     <div class="page-actions dashboard-hero-actions">
                         <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/professeur/enseignements.jsp">Mes enseignements</a>

@@ -31,7 +31,6 @@
                 <div>
                     <p class="eyebrow">Organisation pédagogique</p>
                     <h1 class="page-title">Affectations d’enseignement</h1>
-                    <p class="page-subtitle">Affectez un professeur responsable à un EC, un groupe et un semestre de la même année académique.</p>
                 </div>
             </div>
             <% if (message != null) { %>
@@ -45,7 +44,7 @@
             </div>
             <section class="card">
                 <div class="card-header">
-                    <div><h2>Nouvelle affectation</h2><p class="form-help">Un seul professeur responsable par EC, groupe et année. Les affectations ne sont pas supprimées.</p></div>
+                    <div><h2>Nouvelle affectation</h2></div>
                 </div>
                 <div class="card-body">
                     <% if (teachers.isEmpty() || courseElements.isEmpty() || groups.isEmpty() || semesters.isEmpty()) { %>

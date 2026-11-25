@@ -21,11 +21,8 @@
 %>
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <div class="logo-icon">E</div>
-        <div>
-            <h2>EduSuivi</h2>
-            <p><%= com.mycompany.web.UiMessages.text(request, "app.subtitle") %></p>
-        </div>
+        <img src="${pageContext.request.contextPath}/images/edusuivi-logo.png"
+             alt="EduSuivi — Piloter. Suivre. Évaluer.">
     </div>
     <ul class="sidebar-menu">
         <% if ("DE".equals(currentRole)) { %>

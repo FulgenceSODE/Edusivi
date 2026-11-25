@@ -10,9 +10,8 @@
 <body class="auth-wrapper auth-image-page">
     <main class="auth-card login-card">
         <div class="auth-header">
-            <p class="auth-signature">EduSuivi · Piloter. Suivre. Évaluer.</p>
             <h2>Administration</h2>
-            <p>Accès réservé à l’administrateur</p>
+            <p>Accès réservé à l’admin</p>
         </div>
         <div class="auth-body">
             <% if ("disabled".equals(request.getParameter("error"))) { %>
@@ -26,16 +25,18 @@
                 <input type="hidden" name="csrfToken" value="<%= com.mycompany.web.CsrfTokens.ensureToken(request) %>">
                 <input type="hidden" name="loginMode" value="ADMIN">
                 <div class="form-group">
-                    <label class="form-label" for="email">Adresse électronique</label>
-                    <input type="email" id="email" name="email" class="form-control" autocomplete="username" required autofocus>
+                    <input type="email" id="email" name="email" class="form-control"
+                           placeholder="Adresse" aria-label="Adresse"
+                           autocomplete="username" required autofocus>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" required>
+                    <input type="password" id="password" name="password" class="form-control"
+                           placeholder="Mot de passe" aria-label="Mot de passe"
+                           autocomplete="current-password" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg w-full">Se connecter</button>
                 <div class="auth-form-footer">
-                    <a href="${pageContext.request.contextPath}/login.jsp">Retour à la connexion DE / Professeur</a>
+                    <a href="${pageContext.request.contextPath}/login.jsp">Connexion</a>
                 </div>
             </form>
         </div>

@@ -11,7 +11,6 @@
 
     <main class="auth-card login-card">
         <div class="auth-header">
-            <p class="auth-signature">EduSuivi · Piloter. Suivre. Évaluer.</p>
             <h2>Connexion</h2>
             <p>Veuillez vous identifier pour accéder à votre espace</p>
         </div>
@@ -37,13 +36,15 @@
                 <input type="hidden" name="csrfToken" value="<%= com.mycompany.web.CsrfTokens.ensureToken(request) %>">
                 <input type="hidden" name="loginMode" value="USER">
                 <div class="form-group">
-                    <label class="form-label" for="email">Adresse électronique</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="nomprenom@gmail.com" autocomplete="username" required autofocus>
+                    <input type="email" id="email" name="email" class="form-control"
+                           placeholder="Adresse" aria-label="Adresse"
+                           autocomplete="username" required autofocus>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
+                    <input type="password" id="password" name="password" class="form-control"
+                           placeholder="Mot de passe" aria-label="Mot de passe"
+                           autocomplete="current-password" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-lg w-full">
